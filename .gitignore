@@ -1,0 +1,7 @@
+backend/.env
+secrets/*.json
+android/app/google-services.json
+android/local.properties
+android/.gradle/
+android/app/build/
+__pycache__/

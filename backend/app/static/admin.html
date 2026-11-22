@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Govt Jobs Tracker – Admin</title>
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--line:#bbb;--pri:#0b3d91;--ok:#0a6b2d;--bad:#a30000;--warn:#8a5a00}
+@media(prefers-color-scheme:dark){:root{--bg:#121212;--fg:#f2f2f2;--mut:#bbb;--line:#555;--pri:#8ab4ff;--ok:#6fdc8c;--bad:#ff8a80;--warn:#ffd180}}
+body{font:16px/1.45 system-ui,sans-serif;background:var(--bg);color:var(--fg);margin:0}
+header{padding:10px 16px;border-bottom:2px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+nav{display:flex;gap:6px;flex-wrap:wrap;padding:8px 16px;border-bottom:1px solid var(--line)}
+nav button,button,.btn{font:inherit;padding:6px 12px;border:2px solid var(--pri);background:var(--bg);color:var(--pri);border-radius:6px;cursor:pointer}
+nav button[aria-selected=true]{background:var(--pri);color:var(--bg)}
+button.danger{border-color:var(--bad);color:var(--bad)} button.good{border-color:var(--ok);color:var(--ok)}
+main{padding:16px}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top}
+th{background:rgba(128,128,128,.15)}input,select,textarea{font:inherit;padding:4px;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:4px;max-width:100%}
+.tag{padding:1px 7px;border-radius:10px;border:1px solid currentColor;font-size:12px;white-space:nowrap}
+.monitored,.auto_verified,.admin_verified,.approved,.auto_published{color:var(--ok)}.unavailable,.failed,.rejected{color:var(--bad)}
+.pending_integration,.manual_verification,.needs_review,.unverified{color:var(--warn)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin:8px 0}.card{border:1px solid var(--line);border-radius:8px;padding:10px;margin:8px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}.big{font-size:28px;font-weight:700}
+.wrap{overflow-x:auto}.err{color:var(--bad);font-size:13px;max-width:420px;word-break:break-word}label{display:block;font-size:13px;color:var(--mut)}
+</style></head><body>
+<header><h1 style="margin:0;font-size:20px">Govt Jobs Tracker – Admin</h1>
+<label>Admin key <input id="key" type="password" autocomplete="off" aria-label="Admin API key"></label>
+<button id="login">Sign in</button><span id="msg" role="status" aria-live="polite"></span></header>
+<nav role="tablist" aria-label="Sections" id="tabs"></nav><main id="main" tabindex="-1">Enter your admin key to begin.</main>
+<script>
+const $=s=>document.querySelector(s); let KEY=sessionStorage.getItem('k')||''; $('#key').value=KEY;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tag=s=>`<span class="tag ${esc(s)}">${esc(s)}</span>`; const dt=s=>s?esc(String(s).replace('T',' ').slice(0,16)):'–';
+function say(t,bad){const m=$('#msg');m.textContent=t;m.style.color=bad?'var(--bad)':'var(--ok)'}
+async function api(p,o={}){const r=await fetch('/admin'+p,{...o,headers:{'X-Admin-Key':KEY,'Content-Type':'application/json'},body:o.body?JSON.stringify(o.body):undefined});
+ if(!r.ok){let d='';try{d=(await r.json()).detail}catch(e){}throw new Error(r.status+' '+(d||r.statusText))} return r.json()}
+const TABS=['Health','Sources','Review','Vacancy drafts','Recruitments','Logs','Analytics'];
+$('#tabs').innerHTML=TABS.map((t,i)=>`<button role="tab" data-t="${i}" aria-selected="false">${t}</button>`).join('');
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)show(+b.dataset.t)};
+$('#login').onclick=()=>{KEY=$('#key').value;sessionStorage.setItem('k',KEY);show(0)};
+async function show(i){document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t==i));
+ $('#main').textContent='Loading…';try{await [health,sources,review,drafts,recruitments,logs,analytics][i]();say('')}catch(e){$('#main').textContent='';say(e.message,true)}$('#main').focus()}
+async function health(){const h=await api('/health');const st=Object.fromEntries(h.sources_by_status.map(x=>[x.status,x.n]));
+ const c=(l,v)=>`<div class="card"><div>${l}</div><div class="big">${v}</div></div>`;
+ $('#main').innerHTML=`<div class="grid">${c('Monitored sources',st.monitored||0)}${c('Pending integration',st.pending_integration||0)}${c('Need manual verification',st.manual_verification||0)}${c('Unavailable',st.unavailable||0)}
+ ${c('Checks (24h) / failed',h.checks_24h+' / '+h.failed_checks_24h)}${c('Unverified notifications',h.unverified_notifications)}${c('Vacancy drafts to review',h.drafts_needing_review)}${c('Recruitments / notifications',h.recruitments_total+' / '+h.notifications_total)}
+ ${c('Users / with push token',h.users+' / '+h.users_with_push_token)}${c('"All alerts" users',h.users_all_alerts)}${c('Pushes (24h)',h.pushes_24h)}${c('Firebase configured',h.firebase_configured?'Yes':'NO')}</div>
+ <div class="row"><button id="runp">Run pipeline now (verify → PDFs → push)</button></div><h2>Open alerts</h2>
+ ${h.open_alerts.length?`<div class="wrap"><table><tr><th>When</th><th>Kind</th><th>Message</th><th></th></tr>${h.open_alerts.map(a=>`<tr><td>${dt(a.created_at)}</td><td>${esc(a.kind)}</td><td class="err">${esc(a.message)}</td><td><button data-ack="${a.id}">Acknowledge</button></td></tr>`).join('')}</table></div>`:'<p>No open alerts.</p>'}`;
+ $('#runp').onclick=async()=>{try{say(JSON.stringify(await api('/pipeline/run',{method:'POST'})))}catch(e){say(e.message,true)}};
+ $('#main').onclick=async e=>{const b=e.target.closest('[data-ack]');if(b){await api('/alerts/'+b.dataset.ack+'/ack',{method:'POST'});health()}}}
+async function sources(){const st=window._sst||'',q=window._sq||'';const L=await api('/sources?'+new URLSearchParams({...(st&&{status:st}),...(q&&{q})}));
+ $('#main').innerHTML=`<div class="row"><label>Status<select id="fs"><option value="">all</option>${['monitored','pending_integration','manual_verification','unavailable','disabled'].map(s=>`<option ${s==st?'selected':''}>${s}</option>`).join('')}</select></label>
+ <label>Search<input id="fq" value="${esc(q)}"></label><button id="ff">Filter</button> <button id="ca" class="good">Check ALL sources now (runs in background)</button></div>
+ <details class="card"><summary>Add a source / preview links (new source discovery)</summary><div class="row">
+ <label>Organization ID<input id="so" size="5" type="number"></label><label>URL (official listing page, RSS or sitemap)<input id="su" size="50"></label>
+ <label>Kind<select id="sk"><option>html_list</option><option>rss</option><option>sitemap</option><option>manual_only</option></select></label>
+ <label>CSS selector (optional)<input id="sc" size="22"></label><label>Every (min)<input id="si" size="4" value="60"></label>
+ <button id="sp">Preview links</button><button id="sa" class="good">Add source</button></div><div id="prev"></div></details>
+ <div class="wrap"><table><tr><th>Organization</th><th>URL</th><th>Status</th><th>Items</th><th>Last success</th><th>Last error</th><th>Actions</th></tr>
+ ${L.map(s=>`<tr><td>${esc(s.organization)}<br><small>org #${s.organization_id}</small></td><td><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a><br><small>${esc(s.kind)} · every ${s.interval_minutes}m ${s.css_selector?'· '+esc(s.css_selector):''}</small></td>
+ <td>${tag(s.status)}</td><td>${s.last_item_count}</td><td>${dt(s.last_success_at)}</td><td class="err">${esc(s.last_error)}</td>
+ <td><button data-chk="${s.id}">Check now</button> <button data-edit="${s.id}" data-url="${esc(s.url)}" data-sel="${esc(s.css_selector)}">Edit</button> <button class="danger" data-dis="${s.id}">${s.status=='disabled'?'Enable':'Disable'}</button></td></tr>`).join('')}</table></div>`;
+ $('#ca').onclick=async()=>{try{const r=await api('/sources/check-all',{method:'POST'});say('Checking '+r.started+' sources in the background. Wait 5-10 minutes, then open Health and Review.')}catch(e){say(e.message,true)}};
+ $('#ff').onclick=()=>{window._sst=$('#fs').value;window._sq=$('#fq').value;sources()};
+ const body=()=>({organization_id:+$('#so').value,url:$('#su').value,kind:$('#sk').value,css_selector:$('#sc').value||null,interval_minutes:+$('#si').value||60});
+ $('#sp').onclick=async()=>{try{const r=await api('/sources/discover',{method:'POST',body:{url:$('#su').value,kind:$('#sk').value,css_selector:$('#sc').value||null}});
+  $('#prev').innerHTML=`<p>HTTP ${r.http_status}: ${r.items.length} links</p><ul>${r.items.map(i=>`<li>${esc(i.title)} — <small>${esc(i.url)}</small></li>`).join('')}</ul>`}catch(e){say(e.message,true)}};
+ $('#sa').onclick=async()=>{try{await api('/sources',{method:'POST',body:body()});say('Source added (pending integration)');sources()}catch(e){say(e.message,true)}};
+ $('#main').onclick=async e=>{const b=e.target.closest('button');if(!b)return;try{
+  if(b.dataset.chk){say('Checking…');const r=await api('/sources/'+b.dataset.chk+'/check',{method:'POST'});say(JSON.stringify(r),!!r.error);setTimeout(sources,800)}
+  else if(b.dataset.dis){const s=L.find(x=>x.id==b.dataset.dis);await api('/sources/'+s.id,{method:'PATCH',body:{status:s.status=='disabled'?'pending_integration':'disabled'}});sources()}
+  else if(b.dataset.edit){const u=prompt('Source URL',b.dataset.url);if(u===null)return;const c=prompt('CSS selector for notification links (blank = auto)',b.dataset.sel||'');
+   await api('/sources/'+b.dataset.edit,{method:'PATCH',body:{url:u,...(c?{css_selector:c}:{})}});sources()}}catch(x){say(x.message,true)}}}
+async function review(){const v=window._rv||'unverified';const L=await api('/notifications?verification='+v);
+ $('#main').innerHTML=`<div class="row"><label>Show<select id="rv">${['unverified','auto_verified','admin_verified','rejected'].map(s=>`<option ${s==v?'selected':''}>${s}</option>`).join('')}</select></label></div>
+ <div class="wrap"><table><tr><th>Organization</th><th>Title / link</th><th>Type</th><th>Status</th><th>First seen</th><th>Actions</th></tr>
+ ${L.map(n=>`<tr><td>${esc(n.organization)}</td><td>${esc(n.title)}<br><a href="${esc(n.official_url)}" target="_blank" rel="noopener">${esc(n.official_url)}</a>${n.pdf_url?` · <a href="${esc(n.pdf_url)}" target="_blank" rel="noopener">PDF</a>`:''}</td>
+ <td><select data-type="${n.id}">${['recruitment','corrigendum','extension','exam_date','admit_card','answer_key','result','merit_list','cutoff','document_verification','interview','final_selection','waiting_list','cancellation','postponement','vacancy_revision','other'].map(t=>`<option ${t==n.type?'selected':''}>${t}</option>`).join('')}</select></td>
+ <td>${tag(n.verification)}</td><td>${dt(n.first_seen_at)}</td><td><button class="good" data-v="admin_verified" data-id="${n.id}">Verify</button> <button class="danger" data-v="rejected" data-id="${n.id}">Reject</button> <button data-pdf="${n.id}">Set PDF URL</button> <button data-link="${n.id}">Link to recruitment #</button></td></tr>`).join('')}</table></div>`;
+ $('#rv').onchange=e=>{window._rv=e.target.value;review()};
+ $('#main').onchange=async e=>{if(e.target.dataset.type){await api('/notifications/'+e.target.dataset.type,{method:'PATCH',body:{type:e.target.value}});say('Type updated')}};
+ $('#main').onclick=async e=>{const b=e.target.closest('button');if(!b)return;try{
+  if(b.dataset.v){await api('/notifications/'+b.dataset.id,{method:'PATCH',body:{verification:b.dataset.v}});review()}
+  else if(b.dataset.pdf){const u=prompt('Official PDF URL');if(u){await api('/notifications/'+b.dataset.pdf,{method:'PATCH',body:{pdf_url:u}});say('PDF saved; extraction will re-run');}}
+  else if(b.dataset.link){const r=prompt('Recruitment ID');if(r){await api('/notifications/'+b.dataset.link,{method:'PATCH',body:{recruitment_id:+r}});say('Linked')}}}catch(x){say(x.message,true)}}}
+async function drafts(){const st=window._ds||'needs_review';const L=await api('/drafts?status='+st);
+ $('#main').innerHTML=`<div class="row"><label>Show<select id="ds">${['needs_review','auto_published','approved','rejected'].map(s=>`<option ${s==st?'selected':''}>${s}</option>`).join('')}</select></label></div><div id="ed"></div>
+ <div class="wrap"><table><tr><th>Organization</th><th>Notification</th><th>Status</th><th>Flags</th><th></th></tr>${L.map(d=>`<tr><td>${esc(d.organization)}</td><td>${esc(d.title)}<br>${d.pdf_url?`<a href="${esc(d.pdf_url)}" target="_blank" rel="noopener">Official PDF</a>`:''}</td>
+ <td>${tag(d.status)}</td><td class="err">${esc((d.flags||[]).join(', '))} ${esc(d.error)}</td><td><button data-open="${d.id}">Open / correct</button> <button data-re="${d.id}">Re-run extraction</button> <button class="danger" data-rj="${d.id}">Reject</button></td></tr>`).join('')}</table></div>`;
+ $('#ds').onchange=e=>{window._ds=e.target.value;drafts()};
+ $('#main').onclick=async e=>{const b=e.target.closest('button');if(!b)return;try{
+  if(b.dataset.rj){await api('/drafts/'+b.dataset.rj+'/reject',{method:'POST'});drafts()}
+  else if(b.dataset.re){await api('/drafts/'+b.dataset.re+'/reprocess',{method:'POST'});say('Queued: runs on next pipeline pass');drafts()}
+  else if(b.dataset.open)openDraft(b.dataset.open)}catch(x){say(x.message,true)}}}
+async function openDraft(id){const d=await api('/drafts/'+id);const x=d.extracted||{};const m=x.meta||{};const V=x.vacancies||[];
+ const F=[['advertisement_no','Advertisement no.'],['total_vacancies','Total vacancies (leave blank if not printed)'],['apply_start','Application start (YYYY-MM-DD)'],['apply_end','Application end (YYYY-MM-DD)'],['qualification_levels','Qualification levels (comma: 10th,12th,graduate,diploma,iti,pg,engineering)'],['min_age','Min age'],['max_age','Max age'],['department','Department'],['district','District'],['location','Job location'],['pay_text','Salary / pay scale'],['fee_text','Application fee'],['selection_process','Selection process'],['apply_url','Official apply URL'],['age_relaxation_text','Age relaxation'],['nationality_text','Nationality']];
+ $('#ed').innerHTML=`<div class="card"><h2>${esc(d.title)}</h2><p>Compare with the official PDF: <a href="${esc(d.pdf_url||'')}" target="_blank" rel="noopener">open PDF</a>. Flags: <span class="err">${esc((d.flags||[]).join(', ')||'none')}</span></p>
+ <div class="row">${F.map(([k,l])=>`<label>${l}<input data-f="${k}" value="${esc(m[k]??'')}" size="${k.includes('text')||k=='selection_process'||k=='apply_url'?40:16}"></label>`).join('')}<label><input type="checkbox" data-f="pwbd_eligible"> PwBD eligible</label></div>
+ <h3>Vacancies exactly as printed (blank category rows are ignored)</h3><div class="wrap"><table id="vt"><tr><th>Post</th><th>Department</th><th>State</th><th>Gender</th><th>Category</th><th>PwBD sub</th><th>Count</th><th></th></tr></table></div>
+ <button id="addv">Add row</button> <button id="ok" class="good">Approve & publish as admin-verified</button></div>`;
+ const row=v=>{const tr=document.createElement('tr');tr.innerHTML=['post_name','department','state','gender','category','pwbd_subcategory','count'].map(k=>`<td><input data-k="${k}" value="${esc(v[k]??'')}" size="${k=='post_name'?24:8}"></td>`).join('')+'<td><button data-del>×</button></td>';$('#vt').appendChild(tr)};
+ V.forEach(row);$('#addv').onclick=()=>row({});$('#vt').onclick=e=>{if(e.target.closest('[data-del]'))e.target.closest('tr').remove()};
+ $('#ok').onclick=async()=>{try{const fields={};document.querySelectorAll('[data-f]').forEach(i=>{if(i.type=='checkbox'){fields[i.dataset.f]=i.checked;return}const v=i.value.trim();if(v==='')return;
+  fields[i.dataset.f]=['total_vacancies','min_age','max_age'].includes(i.dataset.f)?+v:i.dataset.f=='qualification_levels'?v.split(',').map(s=>s.trim()).filter(Boolean):v});
+  const vacancies=[...document.querySelectorAll('#vt tr')].slice(1).map(tr=>{const o={};tr.querySelectorAll('[data-k]').forEach(i=>{const v=i.value.trim();if(v!=='')o[i.dataset.k]=i.dataset.k=='count'?(/^\d+$/.test(v)?+v:NaN):v});return o}).filter(o=>o.category);
+  if(vacancies.some(o=>!Number.isInteger(o.count)))throw new Error('Every vacancy row needs a whole-number count');
+  const r=await api('/drafts/'+id+'/approve',{method:'POST',body:{fields,vacancies}});say('Published recruitment #'+r.recruitment_id);drafts()}catch(e){say(e.message,true)}};
+ $('#ed').scrollIntoView()}
+async function recruitments(){const q=window._rq||'';const L=await api('/recruitments?q='+encodeURIComponent(q));
+ $('#main').innerHTML=`<div class="row"><label>Search<input id="rq" value="${esc(q)}"></label><button id="rg">Search</button></div><div class="wrap"><table><tr><th>ID</th><th>Organization</th><th>Title</th><th>Adv. no.</th><th>Vacancies</th><th>Last date</th><th>Verification</th></tr>
+ ${L.map(r=>`<tr><td>${r.id}</td><td>${esc(r.organization)}</td><td>${esc(r.title)}</td><td>${esc(r.advertisement_no)}</td><td>${r.total_vacancies??'Not specified'}</td><td>${esc(r.apply_end)}</td><td>${r.admin_verified?tag('admin_verified'):tag(r.extraction_confidence||'unverified')}</td></tr>`).join('')}</table></div>
+ <p>To correct a recruitment's vacancy figures, use the PDF notification's draft (Vacancy drafts → Approved → Open / correct). New recruitments can also be created via <code>POST /admin/recruitments</code> (see /docs).</p>`;
+ $('#rg').onclick=()=>{window._rq=$('#rq').value;recruitments()}}
+async function logs(){const f=window._lf||false;const L=await api('/logs?only_failed='+f);
+ $('#main').innerHTML=`<div class="row"><label><input type="checkbox" id="lf" ${f?'checked':''}> only failures</label></div><div class="wrap"><table><tr><th>When</th><th>Organization</th><th>Result</th><th>HTTP</th><th>New</th><th>Error</th></tr>
+ ${L.map(l=>`<tr><td>${dt(l.checked_at)}</td><td>${esc(l.organization)}</td><td>${l.ok?tag('monitored'):tag('failed')}</td><td>${l.http_status??''}</td><td>${l.new_items}</td><td class="err">${esc(l.error)}</td></tr>`).join('')}</table></div>`;
+ $('#lf').onchange=e=>{window._lf=e.target.checked;logs()}}
+async function analytics(){const a=await api('/analytics');const T=(t,L,c)=>`<h3>${t}</h3><table><tr>${c.map(x=>`<th>${x}</th>`).join('')}</tr>${L.map(r=>`<tr>${Object.values(r).map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</table>`;
+ $('#main').innerHTML=T('Notifications by type',a.notifications_by_type,['Type','Count'])+T('Pushes per day',a.pushes_by_day,['Day','Pushes'])+T('New users per day',a.new_users_by_day,['Day','Users'])}
+if(KEY)show(0);
+</script></body></html>

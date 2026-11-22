@@ -1,0 +1,225 @@
+# category | organization | short | state (blank = all India) | official domain
+# Add more lines and restart: python -m app.seed_registry. Domains are checked by the monitor: a wrong/unreachable
+# domain shows up as "unavailable" in the dashboard. Nothing here is "monitored" until a real fetch finds notification links.
+Central Government|Union Public Service Commission|UPSC||upsc.gov.in
+Central Government|Staff Selection Commission|SSC||ssc.gov.in
+Central Government|Department of Posts (India Post)|India Post||indiapost.gov.in
+Central Government|India Post GDS Online|India Post GDS||indiapostgdsonline.gov.in
+Central Government|DRDO|DRDO||drdo.gov.in
+Central Government|ISRO|ISRO||isro.gov.in
+Central Government|Bhabha Atomic Research Centre|BARC||barc.gov.in
+Central Government|Employees State Insurance Corporation|ESIC||esic.gov.in
+Central Government|EPFO|EPFO||epfindia.gov.in
+Central Government|Airports Authority of India|AAI||aai.aero
+Central Government|National Highways Authority of India|NHAI||nhai.gov.in
+Central Government|CSIR|CSIR||csir.res.in
+Central Government|ICAR|ICAR||icar.gov.in
+Central Government|ICMR|ICMR||icmr.gov.in
+Central Government|National Testing Agency|NTA||nta.ac.in
+Central Government|Kendriya Vidyalaya Sangathan|KVS||kvsangathan.nic.in
+Central Government|Navodaya Vidyalaya Samiti|NVS||navodaya.gov.in
+Central Government|National Health Mission|NHM||nhm.gov.in
+Central Government|Central Reserve Police Force|CRPF||crpf.gov.in
+Central Government|Central Industrial Security Force|CISF||cisf.gov.in
+Central Government|Border Security Force|BSF||bsf.gov.in
+Central Government|Sashastra Seema Bal|SSB||ssb.nic.in
+Central Government|Indo-Tibetan Border Police|ITBP||itbpolice.nic.in
+Railways|Ministry of Railways (Indian Railways)|Indian Railways||indianrailways.gov.in
+Railways|RRB Applications Portal|RRB Portal||rrbapply.gov.in
+Railways|RRB Chandigarh|RRB Chandigarh||rrbcdg.gov.in
+Railways|RRB Mumbai|RRB Mumbai||rrbmumbai.gov.in
+Railways|RRB Ahmedabad|RRB Ahmedabad||rrbahmedabad.gov.in
+Railways|RRB Allahabad (Prayagraj)|RRB Prayagraj||rrbald.gov.in
+Railways|RRB Bhopal|RRB Bhopal||rrbbpl.nic.in
+Railways|RRB Bhubaneswar|RRB Bhubaneswar||rrbbbs.gov.in
+Railways|RRB Bangalore|RRB Bangalore||rrbbnc.gov.in
+Railways|RRB Chennai|RRB Chennai||rrbchennai.gov.in
+Railways|RRB Kolkata|RRB Kolkata||rrbkolkata.gov.in
+Railways|RRB Secunderabad|RRB Secunderabad||rrbsecunderabad.gov.in
+Railways|RRB Ranchi|RRB Ranchi||rrbranchi.gov.in
+Railways|RRB Patna|RRB Patna||rrbpatna.gov.in
+Railways|RRB Gorakhpur|RRB Gorakhpur||rrbgkp.gov.in
+Railways|RRB Ajmer|RRB Ajmer||rrbajmer.gov.in
+Railways|RRB Guwahati|RRB Guwahati||rrbguwahati.gov.in
+Railways|RRB Thiruvananthapuram|RRB Thiruvananthapuram||rrbthiruvananthapuram.gov.in
+Railways|RRB Siliguri|RRB Siliguri||rrbsiliguri.gov.in
+Railways|RRB Jammu-Srinagar|RRB Jammu||rrbjammu.nic.in
+Railways|RRC Northern Railway|RRC NR||rrcnr.org
+Railways|RRC Central Railway|RRC CR||rrccr.com
+Defence|Indian Army (Join Indian Army)|Indian Army||joinindianarmy.nic.in
+Defence|Indian Navy (Join Indian Navy)|Indian Navy||joinindiannavy.gov.in
+Defence|Indian Air Force|IAF||indianairforce.nic.in
+Defence|Agniveervayu (IAF)|Agniveervayu||agnipathvayu.cdac.in
+Defence|Indian Coast Guard|Coast Guard||joinindiancoastguard.cdac.in
+Defence|Ministry of Defence|MoD||mod.gov.in
+Banking|Institute of Banking Personnel Selection|IBPS||ibps.in
+Banking|State Bank of India|SBI||sbi.co.in
+Banking|Reserve Bank of India|RBI||rbi.org.in
+Banking|NABARD|NABARD||nabard.org
+Banking|SIDBI|SIDBI||sidbi.in
+Banking|Bank of Baroda|BoB||bankofbaroda.in
+Banking|Punjab National Bank|PNB||pnbindia.in
+Banking|Canara Bank|Canara||canarabank.com
+Banking|Union Bank of India|Union Bank||unionbankofindia.co.in
+Banking|Bank of India|BoI||bankofindia.co.in
+Banking|Indian Bank|Indian Bank||indianbank.in
+Banking|Central Bank of India|Central Bank||centralbankofindia.co.in
+Banking|Bank of Maharashtra|BoM||bankofmaharashtra.in
+Banking|UCO Bank|UCO||ucobank.com
+Banking|Indian Overseas Bank|IOB||iob.in
+Banking|Punjab & Sind Bank|PSB||psbindia.com
+Banking|National Housing Bank|NHB||nhb.org.in
+Banking|EXIM Bank|EXIM||eximbankindia.in
+Insurance|Life Insurance Corporation of India|LIC||licindia.in
+Insurance|General Insurance Corporation of India|GIC Re||gicofindia.com
+Insurance|The New India Assurance|NIACL||newindia.co.in
+Insurance|United India Insurance|UIIC||uiic.co.in
+Insurance|The Oriental Insurance Company|OICL||orientalinsurance.org.in
+Insurance|National Insurance Company|NICL||nationalinsurance.nic.co.in
+Insurance|IRDAI|IRDAI||irdai.gov.in
+Maharashtra|Maharashtra Public Service Commission|MPSC|Maharashtra|mpsc.gov.in
+Maharashtra|Maharashtra Police|Maha Police|Maharashtra|mahapolice.gov.in
+Maharashtra|Government of Maharashtra (departments)|GoM|Maharashtra|maharashtra.gov.in
+Maharashtra|Public Health Department Maharashtra|Arogya|Maharashtra|arogya.maharashtra.gov.in
+Maharashtra|MSEDCL (Mahavitaran)|MSEDCL|Maharashtra|mahavitaran.com
+Maharashtra|MAHAGENCO|MAHAGENCO|Maharashtra|mahagenco.in
+Maharashtra|MAHATRANSCO|MAHATRANSCO|Maharashtra|mahatransco.in
+Maharashtra|CIDCO|CIDCO|Maharashtra|cidco.maharashtra.gov.in
+Maharashtra|MMRDA|MMRDA|Maharashtra|mmrda.maharashtra.gov.in
+Maharashtra|MHADA|MHADA|Maharashtra|mhada.gov.in
+Maharashtra|BEST Undertaking|BEST|Maharashtra|bestundertaking.com
+Maharashtra|Tata Memorial Centre|TMC|Maharashtra|tmc.gov.in
+Maharashtra|KEM Hospital Mumbai|KEM|Maharashtra|kem.edu
+Maharashtra|Mumbai University|MU|Maharashtra|mu.ac.in
+Maharashtra|Savitribai Phule Pune University|SPPU|Maharashtra|unipune.ac.in
+State Service Commissions|Uttar Pradesh PSC|UPPSC|Uttar Pradesh|uppsc.up.nic.in
+State Service Commissions|Bihar PSC|BPSC|Bihar|bpsc.bihar.gov.in
+State Service Commissions|Rajasthan PSC|RPSC|Rajasthan|rpsc.rajasthan.gov.in
+State Service Commissions|Madhya Pradesh PSC|MPPSC|Madhya Pradesh|mppsc.mp.gov.in
+State Service Commissions|Gujarat PSC|GPSC|Gujarat|gpsc.gujarat.gov.in
+State Service Commissions|Karnataka PSC|KPSC|Karnataka|kpsc.kar.nic.in
+State Service Commissions|Kerala PSC|Kerala PSC|Kerala|keralapsc.gov.in
+State Service Commissions|Tamil Nadu PSC|TNPSC|Tamil Nadu|tnpsc.gov.in
+State Service Commissions|Telangana PSC|TSPSC|Telangana|tspsc.gov.in
+State Service Commissions|Andhra Pradesh PSC|APPSC|Andhra Pradesh|psc.ap.gov.in
+State Service Commissions|Odisha PSC|OPSC|Odisha|opsc.gov.in
+State Service Commissions|West Bengal PSC|WBPSC|West Bengal|wbpsc.gov.in
+State Service Commissions|Jharkhand PSC|JPSC|Jharkhand|jpsc.gov.in
+State Service Commissions|Chhattisgarh PSC|CGPSC|Chhattisgarh|psc.cg.gov.in
+State Service Commissions|Haryana PSC|HPSC|Haryana|hpsc.gov.in
+State Service Commissions|Punjab PSC|PPSC|Punjab|ppsc.gov.in
+State Service Commissions|Uttarakhand PSC|UKPSC|Uttarakhand|ukpsc.gov.in
+State Service Commissions|Himachal Pradesh PSC|HPPSC|Himachal Pradesh|hppsc.hp.gov.in
+State Service Commissions|Jammu & Kashmir PSC|JKPSC|Jammu and Kashmir|jkpsc.nic.in
+State Service Commissions|Assam PSC|APSC|Assam|apsc.nic.in
+State Service Commissions|Goa PSC|Goa PSC|Goa|gpsc.goa.gov.in
+State Service Commissions|Delhi Subordinate Services Selection Board|DSSSB|Delhi|dsssb.delhi.gov.in
+State Service Commissions|Tripura PSC|TPSC|Tripura|tpsc.tripura.gov.in
+State Service Commissions|Manipur PSC|MPSC Manipur|Manipur|mpscmanipur.gov.in
+State Service Commissions|Meghalaya PSC|MPSC Meghalaya|Meghalaya|mpsc.nic.in
+State Service Commissions|Mizoram PSC|MPSC Mizoram|Mizoram|mpsc.mizoram.gov.in
+State Service Commissions|Nagaland PSC|NPSC|Nagaland|npsc.co.in
+State Service Commissions|Sikkim PSC|SPSC|Sikkim|spsc.sikkim.gov.in
+State Service Commissions|Arunachal Pradesh PSC|APPSC Arunachal|Arunachal Pradesh|appsc.gov.in
+State Staff Selection Boards|UP Subordinate Services Selection Commission|UPSSSC|Uttar Pradesh|upsssc.gov.in
+State Staff Selection Boards|Bihar Staff Selection Commission|BSSC|Bihar|bssc.bihar.gov.in
+State Staff Selection Boards|Rajasthan Staff Selection Board|RSMSSB|Rajasthan|rsmssb.rajasthan.gov.in
+State Staff Selection Boards|Haryana Staff Selection Commission|HSSC|Haryana|hssc.gov.in
+State Staff Selection Boards|Punjab Subordinate Services Selection Board|PSSSB|Punjab|sssb.punjab.gov.in
+State Staff Selection Boards|Karnataka Examinations Authority|KEA|Karnataka|kea.kar.nic.in
+State Staff Selection Boards|TN Uniformed Services Recruitment Board|TNUSRB|Tamil Nadu|tnusrb.tn.gov.in
+State Staff Selection Boards|Telangana State Level Police Recruitment Board|TSLPRB|Telangana|tslprb.in
+State Staff Selection Boards|MP Employees Selection Board|MPESB|Madhya Pradesh|esb.mp.gov.in
+State Staff Selection Boards|Odisha Staff Selection Commission|OSSC|Odisha|ossc.gov.in
+State Staff Selection Boards|West Bengal Staff Selection Commission|WBSSC|West Bengal|wbssc.gov.in
+State Staff Selection Boards|Jharkhand Staff Selection Commission|JSSC|Jharkhand|jssc.nic.in
+State Staff Selection Boards|Gujarat Subordinate Services Selection Board|GSSSB|Gujarat|gsssb.gujarat.gov.in
+State Staff Selection Boards|Uttarakhand Subordinate Service Selection Commission|UKSSSC|Uttarakhand|sssc.uk.gov.in
+Union Territories|Chandigarh Administration|Chandigarh|Chandigarh|chandigarh.gov.in
+Union Territories|Andaman & Nicobar Administration|A&N|Andaman and Nicobar Islands|andaman.gov.in
+Union Territories|Ladakh Administration|Ladakh|Ladakh|ladakh.gov.in
+Union Territories|Lakshadweep Administration|Lakshadweep|Lakshadweep|lakshadweep.gov.in
+Union Territories|Puducherry Government|Puducherry|Puducherry|py.gov.in
+Local Government Bodies|Brihanmumbai Municipal Corporation|BMC|Maharashtra|mcgm.gov.in
+Local Government Bodies|Pune Municipal Corporation|PMC|Maharashtra|pmc.gov.in
+Local Government Bodies|Pimpri Chinchwad Municipal Corporation|PCMC|Maharashtra|pcmcindia.gov.in
+Local Government Bodies|Thane Municipal Corporation|TMC Thane|Maharashtra|thanecity.gov.in
+Local Government Bodies|Navi Mumbai Municipal Corporation|NMMC|Maharashtra|nmmc.gov.in
+Local Government Bodies|Kalyan-Dombivli Municipal Corporation|KDMC|Maharashtra|kdmc.gov.in
+Local Government Bodies|Vasai-Virar City Municipal Corporation|VVCMC|Maharashtra|vvcmc.gov.in
+Local Government Bodies|Mira-Bhayandar Municipal Corporation|MBMC|Maharashtra|mbmc.gov.in
+Local Government Bodies|Nagpur Municipal Corporation|NMC Nagpur|Maharashtra|nmcnagpur.gov.in
+Local Government Bodies|Nashik Municipal Corporation|NMC Nashik|Maharashtra|nashikcorporation.in
+Local Government Bodies|Municipal Corporation of Delhi|MCD|Delhi|mcdonline.nic.in
+Local Government Bodies|Bruhat Bengaluru Mahanagara Palike|BBMP|Karnataka|bbmp.gov.in
+Local Government Bodies|Greater Hyderabad Municipal Corporation|GHMC|Telangana|ghmc.gov.in
+Local Government Bodies|Greater Chennai Corporation|GCC|Tamil Nadu|chennaicorporation.gov.in
+Local Government Bodies|Kolkata Municipal Corporation|KMC|West Bengal|kmcgov.in
+Local Government Bodies|Ahmedabad Municipal Corporation|AMC|Gujarat|ahmedabadcity.gov.in
+Local Government Bodies|Surat Municipal Corporation|SMC|Gujarat|suratmunicipal.gov.in
+Local Government Bodies|Delhi Development Authority|DDA|Delhi|dda.gov.in
+PSUs|ONGC|ONGC||ongcindia.com
+PSUs|NTPC|NTPC||ntpc.co.in
+PSUs|Coal India|CIL||coalindia.in
+PSUs|Indian Oil Corporation|IOCL||iocl.com
+PSUs|Bharat Petroleum|BPCL||bharatpetroleum.in
+PSUs|Hindustan Petroleum|HPCL||hindustanpetroleum.com
+PSUs|GAIL|GAIL||gailonline.com
+PSUs|Steel Authority of India|SAIL||sail.co.in
+PSUs|Bharat Heavy Electricals|BHEL||bhel.com
+PSUs|Hindustan Aeronautics|HAL||hal-india.co.in
+PSUs|Bharat Electronics|BEL||belindia.in
+PSUs|Power Grid Corporation|PGCIL||powergrid.in
+PSUs|NHPC|NHPC||nhpcindia.com
+PSUs|IREDA|IREDA||ireda.in
+PSUs|RITES|RITES||rites.com
+PSUs|IRCON|IRCON||ircon.org
+PSUs|Container Corporation of India|CONCOR||concorindia.co.in
+PSUs|NALCO|NALCO||nalcoindia.com
+PSUs|NMDC|NMDC||nmdc.co.in
+PSUs|Oil India|OIL||oil-india.com
+PSUs|Mazagon Dock|MDL||mazagondock.in
+PSUs|Cochin Shipyard|CSL||cochinshipyard.com
+PSUs|Garden Reach Shipbuilders|GRSE||grse.in
+PSUs|Mishra Dhatu Nigam|MIDHANI||midhani.in
+PSUs|BSNL|BSNL||bsnl.co.in
+PSUs|MTNL|MTNL||mtnl.in
+Educational Institutions|IIT Bombay|IITB||iitb.ac.in
+Educational Institutions|IIT Delhi|IITD||iitd.ac.in
+Educational Institutions|IIT Kanpur|IITK||iitk.ac.in
+Educational Institutions|IIT Madras|IITM||iitm.ac.in
+Educational Institutions|IIT Kharagpur|IITKGP||iitkgp.ac.in
+Educational Institutions|IIT Roorkee|IITR||iitr.ac.in
+Educational Institutions|IIT Guwahati|IITG||iitg.ac.in
+Educational Institutions|IIT Hyderabad|IITH||iith.ac.in
+Educational Institutions|NIT Tiruchirappalli|NITT||nitt.edu
+Educational Institutions|NIT Karnataka Surathkal|NITK||nitk.ac.in
+Educational Institutions|NIT Warangal|NITW||nitw.ac.in
+Educational Institutions|NIT Rourkela|NITR||nitrkl.ac.in
+Educational Institutions|MNIT Jaipur|MNIT||mnit.ac.in
+Educational Institutions|VNIT Nagpur|VNIT||vnit.ac.in
+Educational Institutions|NIT Calicut|NITC||nitc.ac.in
+Educational Institutions|NIT Durgapur|NITDGP||nitdgp.ac.in
+Educational Institutions|IIIT Allahabad|IIITA||iiita.ac.in
+Educational Institutions|IIIT Delhi|IIITD||iiitd.ac.in
+Educational Institutions|AIIMS New Delhi|AIIMS Delhi||aiims.edu
+Educational Institutions|AIIMS Bhopal|AIIMS Bhopal||aiimsbhopal.edu.in
+Educational Institutions|AIIMS Rishikesh|AIIMS Rishikesh||aiimsrishikesh.edu.in
+Educational Institutions|AIIMS Patna|AIIMS Patna||aiimspatna.edu.in
+Educational Institutions|AIIMS Raipur|AIIMS Raipur||aiimsraipur.edu.in
+Educational Institutions|AIIMS Jodhpur|AIIMS Jodhpur||aiimsjodhpur.edu.in
+Educational Institutions|AIIMS Bhubaneswar|AIIMS Bhubaneswar||aiimsbhubaneswar.edu.in
+Educational Institutions|AIIMS Nagpur|AIIMS Nagpur||aiimsnagpur.edu.in
+Educational Institutions|AIIMS Mangalagiri|AIIMS Mangalagiri||aiimsmangalagiri.edu.in
+Educational Institutions|PGIMER Chandigarh|PGIMER||pgimer.edu.in
+Educational Institutions|JIPMER Puducherry|JIPMER||jipmer.edu.in
+Educational Institutions|NIMHANS|NIMHANS||nimhans.ac.in
+Educational Institutions|University of Delhi|DU||du.ac.in
+Educational Institutions|Jawaharlal Nehru University|JNU||jnu.ac.in
+Educational Institutions|Banaras Hindu University|BHU||bhu.ac.in
+Educational Institutions|Aligarh Muslim University|AMU||amu.ac.in
+Educational Institutions|University of Hyderabad|UoH||uohyd.ac.in
+Educational Institutions|IGNOU|IGNOU||ignou.ac.in
+Educational Institutions|Indian Institute of Science|IISc||iisc.ac.in
+Educational Institutions|TIFR|TIFR||tifr.res.in
+Educational Institutions|NCERT|NCERT||ncert.nic.in
